@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="https://diadoc.kontur.ru/sdk/interconnection.xsd"
+		elementFormDefault="qualified"
+		xmlns="https://diadoc.kontur.ru/sdk/interconnection.xsd"
+		xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+
+	<xs:element name="Сообщение" type="Сообщение" />
+	<xs:element name="Извещения" type="Извещения" />
+
+	
+	<!-- Сообщение -->
+
+	
+	<xs:complexType name="Сообщение">
+		<xs:sequence minOccurs="1" maxOccurs="1">
+			<xs:element name="Отправитель" type="ИдЯщика" minOccurs="1" maxOccurs="1" />
+			<xs:element name="Получатель" type="ИдЯщика" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="ДатаОтправки" type="ДатаВремяUTC" minOccurs="1" maxOccurs="1"  />
+			<xs:element name="Документ" type="Документ" minOccurs="0" maxOccurs="1"  />
+			<xs:element name="ЭП" type="ЭП" minOccurs="0" maxOccurs="1"  />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ИдЯщика">
+		<xs:attribute name="Оператор" type="Идентификатор" use="required"/>
+		<xs:attribute name="Ящик" type="Идентификатор" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="Документ">
+		<xs:attribute name="ИдДокумента" type="Идентификатор" use="required"/>
+		<xs:attribute name="ТипДокумента" type="ТипДокумента" use="required"/>
+		<xs:attribute name="ОжидаетсяПодписьОтправителя" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="КДокументу" type="Идентификатор" use="optional"/>
+		<xs:attribute name="ИмяФайла" type="ИмяФайла" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="ЭП">
+		<xs:sequence minOccurs="1" maxOccurs="1">
+			<xs:element name="Подписант" type="ИдЯщика" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="ИдЭП" type="Идентификатор" use="required"/>
+		<xs:attribute name="КДокументу" type="Идентификатор" use="required"/>
+	</xs:complexType>
+
+	
+	<!-- Извещения -->
+
+	
+	<xs:complexType name="Извещения">
+		<xs:sequence minOccurs="1" maxOccurs="1">
+			<xs:element name="ОшибкаОбработки" type="ИзвещениеОшибкаОбработки" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="НеизвестныйИд" type="ИзвещениеОшибкаНеизвестныйИд" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="Успех" type="ИзвещениеУспех" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ИзвещениеОшибкаОбработки">
+		<xs:sequence minOccurs="1" maxOccurs="1">
+			<xs:element name="Описание" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИдЛС" type="Идентификатор" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="ИзвещениеОшибкаНеизвестныйИд">
+		<xs:sequence minOccurs="1" maxOccurs="1">
+			<xs:element name="Ид" type="Идентификатор" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="Описание" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute name="ИдЛС" type="Идентификатор" use="required"/>
+	</xs:complexType>
+
+	<xs:complexType name="ИзвещениеУспех">
+		<xs:attribute name="ИдЛС" type="Идентификатор" use="required"/>
+	</xs:complexType>
+
+	
+	<!-- Определения простых типов -->
+	
+
+	<xs:simpleType name="ТипДокумента">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Неформализованный" />
+			<xs:enumeration value="ОтказПодписи" />
+			<xs:enumeration value="СФ" />
+			<xs:enumeration value="СФИзвещениеОПолучении" />
+			<xs:enumeration value="СФЗапросКорректировки" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Идентификатор">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-f0-9]{32}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ИмяФайла">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[^/\\:?*]{1,250}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ДатаВремяUTC">
+		<xs:restriction base="xs:dateTime">
+			<xs:pattern value=".+T.+Z"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
