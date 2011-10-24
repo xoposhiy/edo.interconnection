@@ -1,0 +1,15 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07686BD6-104C-4B56-9EC9-C07C0BA7C79B}"
+	ProjectSection(SolutionItems) = preProject
+		interconnection.xsd = interconnection.xsd
+		Message.xml = Message.xml
+		Receipt.xml = Receipt.xml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -30,7 +30,7 @@
 	<xs:complexType name="Документ">
 		<xs:attribute name="ИдДокумента" type="Идентификатор" use="required"/>
 		<xs:attribute name="ТипДокумента" type="ТипДокумента" use="required"/>
-		<xs:attribute name="ОжидаетсяПодписьОтправителя" type="xs:boolean" use="optional" default="false" />
+		<xs:attribute name="ОжидаетсяПодписьПолучателя" type="xs:boolean" use="optional" default="false" />
 		<xs:attribute name="КДокументу" type="Идентификатор" use="optional"/>
 		<xs:attribute name="ИмяФайла" type="ИмяФайла" use="required"/>
 	</xs:complexType>
@@ -90,7 +90,7 @@
 
 	<xs:simpleType name="Идентификатор">
 		<xs:restriction base="xs:string">
-			<xs:pattern value="[a-f0-9]{32}"/>
+			<xs:pattern value="[a-z0-9]{1,100}"/>
 		</xs:restriction>
 	</xs:simpleType>
 
