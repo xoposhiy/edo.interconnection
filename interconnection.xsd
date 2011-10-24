@@ -55,24 +55,50 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="ИзвещениеОшибкаОбработки">
-		<xs:sequence minOccurs="1" maxOccurs="1">
-			<xs:element name="Описание" type="xs:string" minOccurs="1" maxOccurs="1"/>
-		</xs:sequence>
+	<xs:complexType name="ИзвещениеУспех">
+		<xs:annotation>
+			<xs:documentation>
+				Свидетельствует об успешной обработке ЛС с соответствующим идентификатором
+			</xs:documentation>
+		</xs:annotation>
 		<xs:attribute name="ИдЛС" type="Идентификатор" use="required"/>
 	</xs:complexType>
 
 	<xs:complexType name="ИзвещениеОшибкаНеизвестныйИд">
+		<xs:annotation>
+			<xs:documentation>
+				Документ или ЭП из обрабатываемого ЛС ссылается на неизвестный системе документ.
+				Эта ошибка может возникать, если ТП с хронологически более поздними документами будет по какой-то причине
+				(например, из-за разового сбоя транспорта) получено и обработано ранее,
+				ТП с хронологически более ранними документами.
+			</xs:documentation>
+		</xs:annotation>
 		<xs:sequence minOccurs="1" maxOccurs="1">
-			<xs:element name="Ид" type="Идентификатор" minOccurs="1" maxOccurs="unbounded"/>
+			<xs:element name="Ид" type="Идентификатор" minOccurs="1" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>
+						Перечень неизвестных системе идентификаторов
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="Описание" type="xs:string" minOccurs="1" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="ИдЛС" type="Идентификатор" use="required"/>
 	</xs:complexType>
 
-	<xs:complexType name="ИзвещениеУспех">
+	<xs:complexType name="ИзвещениеОшибкаОбработки">
+		<xs:annotation>
+			<xs:documentation>
+				В процессе обработки возникла какая-либо другая ошибка.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="1" maxOccurs="1">
+			<xs:element name="Описание" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
 		<xs:attribute name="ИдЛС" type="Идентификатор" use="required"/>
 	</xs:complexType>
+
+
 
 	
 	<!-- Определения простых типов -->
