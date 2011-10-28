@@ -14,18 +14,14 @@
 	
 	<xs:complexType name="Сообщение">
 		<xs:sequence minOccurs="1" maxOccurs="1">
-			<xs:element name="Отправитель" type="ИдЯщика" minOccurs="1" maxOccurs="1" />
-			<xs:element name="Получатель" type="ИдЯщика" minOccurs="1" maxOccurs="1"/>
-			<xs:element name="ДатаОтправки" type="ДатаВремяUTC" minOccurs="1" maxOccurs="1"  />
 			<xs:element name="Документ" type="Документ" minOccurs="0" maxOccurs="1"  />
 			<xs:element name="ЭП" type="ЭП" minOccurs="0" maxOccurs="1"  />
 		</xs:sequence>
+		<xs:attribute name="Отправитель" type="ИдЯщика" use="required"/>
+		<xs:attribute name="Получатель" type="ИдЯщика" use="required"/>
+		<xs:attribute name="ДатаОтправки" type="ДатаВремяUTC" use="required"/>
 	</xs:complexType>
 
-	<xs:complexType name="ИдЯщика">
-		<xs:attribute name="Оператор" type="Идентификатор" use="required"/>
-		<xs:attribute name="Ящик" type="Идентификатор" use="required"/>
-	</xs:complexType>
 
 	<xs:complexType name="Документ">
 		<xs:attribute name="ИдДокумента" type="Идентификатор" use="required"/>
@@ -36,9 +32,7 @@
 	</xs:complexType>
 
 	<xs:complexType name="ЭП">
-		<xs:sequence minOccurs="1" maxOccurs="1">
-			<xs:element name="Подписант" type="ИдЯщика" minOccurs="1" maxOccurs="1" />
-		</xs:sequence>
+		<xs:attribute name="Подписант" type="ИдЯщика" use="required"/>
 		<xs:attribute name="ИдЭП" type="Идентификатор" use="required"/>
 		<xs:attribute name="КДокументу" type="Идентификатор" use="required"/>
 	</xs:complexType>
@@ -123,7 +117,20 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="ИмяФайла">
+	<xs:simpleType name="ИдЯщика">
+		<xs:annotation>
+			<xs:documentation>
+				Формат идентификации ящика такой: ИдентификаторАбонента@ИдентификаторОператора.
+				ИдентификаторАбонента может быть уникален лишь в рамках одного оператора.
+				ИдентификаторОператора должен быть глобально уникальным.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-z0-9]{1,100}@[a-z0-9]{1,100}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+		<xs:simpleType name="ИмяФайла">
 		<xs:restriction base="xs:string">
 			<xs:pattern value="[^/\\:?*]{1,250}"/>
 		</xs:restriction>
