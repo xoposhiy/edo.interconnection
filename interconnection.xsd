@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema targetNamespace="https://diadoc.kontur.ru/sdk/interconnection.xsd"
+<!-- Нужно хорошее пространство имен, не завязанное на kontur -->
+<xs:schema targetNamespace="https://diadoc.kontur.ru/sdk/interconnection.xsd" 
 		elementFormDefault="qualified"
 		xmlns="https://diadoc.kontur.ru/sdk/interconnection.xsd"
 		xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -7,15 +8,13 @@
 
 	<xs:element name="Сообщение" type="Сообщение" />
 	<xs:element name="Извещения" type="Извещения" />
-
 	
 	<!-- Сообщение -->
-
 	
 	<xs:complexType name="Сообщение">
 		<xs:sequence minOccurs="1" maxOccurs="1">
-			<xs:element name="Документ" type="Документ" minOccurs="0" maxOccurs="1"  />
-			<xs:element name="ЭП" type="ЭП" minOccurs="0" maxOccurs="1"  />
+			<xs:element name="Документ" type="Документ" minOccurs="0" maxOccurs="unbounded"  />
+			<xs:element name="ЭП" type="ЭП" minOccurs="0" maxOccurs="unbounded"  />
 		</xs:sequence>
 		<xs:attribute name="Отправитель" type="ИдЯщика" use="required"/>
 		<xs:attribute name="Получатель" type="ИдЯщика" use="required"/>
@@ -24,10 +23,17 @@
 
 
 	<xs:complexType name="Документ">
-		<xs:attribute name="ИдДокумента" type="Идентификатор" use="required"/>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:element name="КДокументу" type="Идентификатор" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="ИдВнутренний" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="ИдСделки" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Номер" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Дата" type="xs:date" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Сумма" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="ИдДокумента" type="Идентификатор" use="required"/>
 		<xs:attribute name="ТипДокумента" type="ТипДокумента" use="required"/>
 		<xs:attribute name="ОжидаетсяПодписьПолучателя" type="xs:boolean" use="optional" default="false" />
-		<xs:attribute name="КДокументу" type="Идентификатор" use="optional"/>
 		<xs:attribute name="ИмяФайла" type="ИмяФайла" use="required"/>
 	</xs:complexType>
 
@@ -95,8 +101,6 @@
 		<xs:attribute name="ИдЛС" type="Идентификатор" use="required"/>
 	</xs:complexType>
 
-
-
 	
 	<!-- Определения простых типов -->
 	
@@ -105,15 +109,33 @@
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="Неформализованный" />
 			<xs:enumeration value="ОтказПодписи" />
-			<xs:enumeration value="СФ" />
-			<xs:enumeration value="СФИзвещениеОПолучении" />
-			<xs:enumeration value="СФЗапросКорректировки" />
-		</xs:restriction>
+      <xs:enumeration value="ТН" />
+      <xs:enumeration value="ТТН" />
+      <xs:enumeration value="Акт" />
+      <xs:enumeration value="АктСверки" />
+      <xs:enumeration value="ПлатПоруч" />
+      <xs:enumeration value="Договор" />
+      <xs:enumeration value="Заказ" />
+      <xs:enumeration value="СФ" />
+      <xs:enumeration value="СФ_ИзвещениеОПолучении" /> 
+      <!-- возможно, убрать префикс СФ_и использовать ИОП и для всех остальных документов тоже -->
+      
+      <xs:enumeration value="СФ_ЗапросКорректировки" />
+      <xs:enumeration value="СтруктурированныеДанные">
+        <xs:annotation>
+          <xs:documentation>
+          Структурированнае данные (например в формате xml), 
+          передаваемые вместе с печатной формой документа. 
+          У документа такого типа скорее всего должен быть указан идентификатор КДокументу
+        </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="Идентификатор">
 		<xs:restriction base="xs:string">
-			<xs:pattern value="[a-z0-9]{1,100}"/>
+			<xs:pattern value="[a-z0-9]{32}"/>
 		</xs:restriction>
 	</xs:simpleType>
 
