@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Извещения xmlns="https://diadoc.kontur.ru/sdk/interconnection/message.xsd">
+<Квитанции xmlns="https://diadoc.kontur.ru/sdk/interconnection/message.xsd">
 	<ОшибкаОбработки ИдЛС="01234567890123456789012345678901">
 		<Описание>
 			ReceiverNotFoundException
@@ -25,4 +25,4 @@
 	<Успех ИдЛС="71234567890123456789012345678901"/>
 	<Успех ИдЛС="81234567890123456789012345678901"/>
 	<Успех ИдЛС="91234567890123456789012345678901"/>
-</Извещения>
+</Квитанции>
