@@ -1,8 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<!-- Нужно хорошее пространство имен, не завязанное на kontur -->
-<xs:schema targetNamespace="https://diadoc.kontur.ru/sdk/interconnection.xsd"
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema targetNamespace="http://www.roseu.org/interconnection/logical-message-v1"
 		elementFormDefault="qualified"
-		xmlns="https://diadoc.kontur.ru/sdk/interconnection.xsd"
+		xmlns="http://www.roseu.org/interconnection/logical-message-v1"
 		xmlns:xs="http://www.w3.org/2001/XMLSchema"
 >
 
@@ -16,8 +15,8 @@
 			<xs:element name="Документ" type="Документ" minOccurs="0" maxOccurs="unbounded"  />
 			<xs:element name="ЭП" type="ЭП" minOccurs="0" maxOccurs="unbounded"  />
 		</xs:sequence>
-		<xs:attribute name="Отправитель" type="ИдЯщика" use="required"/>
-		<xs:attribute name="Получатель" type="ИдЯщика" use="required"/>
+		<xs:attribute name="Отправитель" type="ИдУчастЭДО" use="required"/>
+		<xs:attribute name="Получатель" type="ИдУчастЭДО" use="required"/>
 		<xs:attribute name="ДатаОтправки" type="ДатаВремяUTC" use="required"/>
 	</xs:complexType>
 
@@ -30,6 +29,7 @@
 			<xs:element name="Номер" type="xs:string" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="Дата" type="xs:date" minOccurs="0" maxOccurs="1"/>
 			<xs:element name="Сумма" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+			<xs:element name="СуммаНДС" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="ИдДокумента" type="Идентификатор" use="required"/>
 		<xs:attribute name="ТипДокумента" type="ТипДокумента" use="required"/>
@@ -38,7 +38,7 @@
 	</xs:complexType>
 
 	<xs:complexType name="ЭП">
-		<xs:attribute name="Подписант" type="ИдЯщика" use="required"/>
+		<xs:attribute name="Подписант" type="ИдУчастЭДО" use="required"/>
 		<xs:attribute name="ИдЭП" type="Идентификатор" use="required"/>
 		<xs:attribute name="КДокументу" type="Идентификатор" use="required"/>
 	</xs:complexType>
@@ -119,6 +119,7 @@
 			<xs:enumeration value="СФ" />
 			<xs:enumeration value="ИзвещениеОПолучении" />
 			<xs:enumeration value="УведомлениеОбУточнении" />
+			<xs:enumeration value="ПредложениеОбАннулировании" />
 			<xs:enumeration value="СтруктурированныеДанные">
 				<xs:annotation>
 					<xs:documentation>
@@ -137,16 +138,18 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:simpleType name="ИдЯщика">
+	<xs:simpleType name="ИдУчастЭДО">
 		<xs:annotation>
 			<xs:documentation>
-				Формат идентификации ящика такой: ИдентификаторАбонента@ИдентификаторОператора.
-				ИдентификаторАбонента может быть уникален лишь в рамках одного оператора.
-				ИдентификаторОператора должен быть глобально уникальным.
+				Идентификатор участника документооборота
+				Формат идентификатора: [ИдентификаторОператора>][ИдентификаторАбонента].
+				ИдентификаторАбонента может быть уникален лишь в рамках одного оператора, длина не более 43 символов.
+				ИдентификаторОператора должен быть глобально уникальным, длина 3 символа.
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<xs:pattern value="[a-z0-9]{1,100}@[a-z0-9]{1,100}"/>
+			<xs:minLength value="4"/>
+			<xs:maxLength value="46"/>
 		</xs:restriction>
 	</xs:simpleType>
 

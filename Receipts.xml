@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Квитанции xmlns="https://diadoc.kontur.ru/sdk/interconnection/message.xsd">
+<?xml version="1.0" encoding="utf-8"?>
+<Квитанции xmlns="http://www.roseu.org/interconnection/logical-message-v1">
 	<ОшибкаОбработки ИдЛС="01234567890123456789012345678901">
 		<Описание>
 			ReceiverNotFoundException
@@ -9,7 +9,7 @@
 	<ОшибкаОбработки ИдЛС="11234567890123456789012345678901">
 		<Описание>
 			CertificateVerificationException
-			Сертификат "Конь в пальто" был отозван.			
+			Сертификат "Конь в пальто" был отозван.
 		</Описание>
 	</ОшибкаОбработки>
 	<НеизвестныйИд ИдЛС="21234567890123456789012345678901">

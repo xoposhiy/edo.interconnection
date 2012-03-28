@@ -3,8 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{07686BD6-104C-4B56-9EC9-C07C0BA7C79B}"
 	ProjectSection(SolutionItems) = preProject
+		amendment-request-v1.xsd = amendment-request-v1.xsd
 		description.xml = description.xml
-		interconnection.xsd = interconnection.xsd
+		document-receipt-v1.xsd = document-receipt-v1.xsd
+		logical-message-v1.xsd = logical-message-v1.xsd
 		receipts.xml = receipts.xml
 	EndProjectSection
 EndProject
